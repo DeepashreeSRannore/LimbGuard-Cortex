@@ -57,7 +57,7 @@ class GangreneClassifier(nn.Module):
 
     def load(self, path: Optional[str] = None, device: str = "cpu"):
         path = path or os.path.join(CHECKPOINT_DIR, "vit_classifier.pt")
-        self.load_state_dict(torch.load(path, map_location=device))
+        self.load_state_dict(torch.load(path, map_location=device, weights_only=True))
         self.eval()
 
 
