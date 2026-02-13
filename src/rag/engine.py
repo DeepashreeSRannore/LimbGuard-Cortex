@@ -67,7 +67,9 @@ class RAGEngine:
                 text = "\n".join(page.extract_text() or "" for page in reader.pages)
                 if text.strip():
                     docs.append(text)
-            except Exception:
+            except Exception as exc:
+                import logging
+                logging.getLogger(__name__).warning("Skipping %s: %s", path, exc)
                 continue
         return docs
 
@@ -92,7 +94,9 @@ class RAGEngine:
         raw_docs = self._load_text_files(docs_dir) + self._load_pdf_files(docs_dir)
         if not raw_docs:
             raise FileNotFoundError(
-                f"No .txt or .pdf documents found in {docs_dir}")
+                f"No .txt or .pdf documents found in {docs_dir}. "
+                f"Add medical reference documents to the knowledge_base/ "
+                f"directory and re-run this command.")
 
         self._texts = []
         for doc in raw_docs:

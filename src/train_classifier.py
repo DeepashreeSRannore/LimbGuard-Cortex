@@ -34,7 +34,7 @@ def train(epochs: int = CLASSIFIER_EPOCHS,
     # ── data ───────────────────────────────────────────────────────────
     paths, labels = build_dataset()
     if not paths:
-        print("ERROR: No images found.  Check that the Dataset/ folder "
+        print("ERROR: No images found. Check that the Dataset/ folder "
               "contains images under normal_feet_images/ and "
               "wound-segmentation/data/Medetec_foot_ulcer_224/.")
         return
