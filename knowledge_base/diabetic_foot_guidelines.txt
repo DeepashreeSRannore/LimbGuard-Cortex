@@ -1,0 +1,98 @@
+Diabetic Foot Care and Gangrene Management Guidelines
+======================================================
+
+1. OVERVIEW
+-----------
+Diabetic foot complications are a leading cause of non-traumatic lower-limb
+amputations worldwide.  Early detection and proper management of foot ulcers
+and gangrene can significantly reduce amputation rates.
+
+2. CLASSIFICATION OF DIABETIC FOOT GANGRENE
+--------------------------------------------
+Grade 0 (Normal / At Risk):
+  - No active ulceration but risk factors present (neuropathy, deformity).
+  - Preventive care: daily foot inspection, proper footwear, blood sugar
+    control.
+
+Grade 1 (Superficial Ulcer):
+  - Partial- or full-thickness ulcer not involving deeper structures.
+  - Management: offloading, moist wound dressings, infection surveillance.
+  - Follow-up within 1-2 weeks.
+
+Grade 2 (Deep Ulcer):
+  - Ulcer extending to tendon, bone, or joint capsule.
+  - Requires radiographic evaluation (X-ray or MRI) to assess depth.
+  - Antibiotic therapy if signs of infection are present.
+  - Referral to wound care specialist.
+
+Grade 3 (Abscess / Osteomyelitis):
+  - Deep infection with abscess formation or bone involvement.
+  - Urgent surgical consultation for debridement.
+  - Intravenous antibiotics.
+  - Hospitalization often required.
+
+Grade 4 (Gangrene of Forefoot / Partial Foot):
+  - Necrosis of a portion of the foot.
+  - Emergency vascular surgery consultation.
+  - Possible amputation of affected part to prevent spread.
+  - Aggressive revascularization where feasible.
+
+3. PREVENTIVE SELF-CARE FOR DIABETIC PATIENTS
+----------------------------------------------
+Blood Sugar Management:
+  - Maintain HbA1c below 7% (or individualized target).
+  - Monitor fasting and post-prandial glucose daily.
+  - Follow prescribed medication regimen.
+
+Foot Hygiene:
+  - Wash feet daily with lukewarm water; dry thoroughly.
+  - Apply moisturizer to prevent cracking (avoid between toes).
+  - Trim toenails straight across to avoid ingrown nails.
+
+Footwear:
+  - Wear properly fitting shoes with adequate toe room.
+  - Use diabetic-specific insoles if recommended.
+  - Never walk barefoot, even indoors.
+
+Regular Examinations:
+  - Annual comprehensive foot exam for all diabetic patients.
+  - Every 3-6 months for patients with neuropathy or PAD.
+  - Immediate evaluation for any new wound, blister, or color change.
+
+4. WHEN TO SEEK EMERGENCY CARE
+-------------------------------
+  - Sudden onset of severe pain in the foot or leg.
+  - Foot turns black, blue, or dark red.
+  - Foul-smelling discharge from a wound.
+  - Fever above 100.4°F (38°C) with a foot wound.
+  - Inability to bear weight on the affected foot.
+  - Rapid spreading of redness around a wound.
+
+5. TREATMENT MODALITIES
+------------------------
+Conservative:
+  - Wound debridement and dressing changes.
+  - Offloading (total contact cast, removable walking boot).
+  - Topical and systemic antibiotics as indicated.
+
+Surgical:
+  - Incision and drainage of abscesses.
+  - Bone resection for osteomyelitis.
+  - Revascularization (angioplasty, bypass surgery).
+  - Amputation as last resort.
+
+Advanced Therapies:
+  - Hyperbaric oxygen therapy.
+  - Negative pressure wound therapy (wound VAC).
+  - Growth factor application.
+  - Bioengineered skin substitutes.
+
+6. REFERENCES
+--------------
+  - International Working Group on the Diabetic Foot (IWGDF) Guidelines.
+  - American Diabetes Association Standards of Medical Care.
+  - Wound Healing Society Guidelines for Chronic Wounds.
+
+DISCLAIMER: This document is for educational and reference purposes only.
+It does not replace professional medical advice, diagnosis, or treatment.
+Always seek the advice of a qualified healthcare provider.

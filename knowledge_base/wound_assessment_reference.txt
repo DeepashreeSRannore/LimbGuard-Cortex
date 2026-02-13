@@ -1,0 +1,58 @@
+Wound Assessment and Management Reference
+==========================================
+
+1. WOUND ASSESSMENT
+--------------------
+Size and Depth:
+  - Measure length, width, and depth in centimeters.
+  - Document wound bed composition: granulation, slough, eschar, necrotic.
+  - Photograph for longitudinal tracking.
+
+Wound Edges:
+  - Assess for undermining and tunneling.
+  - Note if edges are attached, rolled, or macerated.
+
+Surrounding Skin:
+  - Check for erythema, induration, warmth, and edema.
+  - Assess skin turgor and moisture level.
+
+Signs of Infection:
+  - Classic signs: redness, warmth, swelling, pain, purulent drainage.
+  - Systemic signs: fever, elevated WBC, malaise.
+  - Biofilm: slimy appearance on wound bed despite regular cleaning.
+
+2. WOUND CLASSIFICATION SYSTEMS
+---------------------------------
+Wagner Classification (commonly used for diabetic foot ulcers):
+  Grade 0: No open lesion; deformity or cellulitis may be present.
+  Grade 1: Superficial diabetic ulcer.
+  Grade 2: Ulcer extending to ligament, tendon, joint capsule, or fascia.
+  Grade 3: Deep ulcer with abscess, osteomyelitis, or joint sepsis.
+  Grade 4: Gangrene of forefoot.
+  Grade 5: Extensive gangrene requiring major amputation.
+
+University of Texas Classification:
+  Stages A-D crossed with Grades 0-3 for more nuanced assessment.
+
+3. DRESSING SELECTION
+----------------------
+  - Clean, granulating wounds: hydrocolloid or foam dressings.
+  - Infected wounds: antimicrobial dressings (silver, iodine).
+  - Heavily exudative wounds: alginate or hydrofiber dressings.
+  - Dry/necrotic wounds: hydrogel to promote autolytic debridement.
+
+4. OFFLOADING STRATEGIES
+--------------------------
+  - Total contact cast (gold standard for plantar ulcers).
+  - Removable cast walkers with adherence monitoring.
+  - Therapeutic footwear for healed ulcers to prevent recurrence.
+
+5. VASCULAR ASSESSMENT
+------------------------
+  - Ankle-brachial index (ABI): normal 1.0-1.3; <0.9 suggests PAD.
+  - Toe pressures and transcutaneous oxygen measurements.
+  - Duplex ultrasound for anatomical assessment.
+  - Angiography if revascularization is being considered.
+
+DISCLAIMER: This document is for educational and reference purposes only.
+Always consult qualified healthcare professionals for clinical decisions.

@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+eggs/
+*.egg
+
+# Virtual environments
+venv/
+env/
+.env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ML artifacts
+*.h5
+*.hdf5
+*.pt
+*.pth
+*.onnx
+*.pkl
+*.pickle
+checkpoints/
+training_history/
+runs/
+wandb/
+
+# FAISS index files
+*.index
+*.faiss
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+
+# Pytest
+.pytest_cache/
