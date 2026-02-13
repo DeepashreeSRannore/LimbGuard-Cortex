@@ -44,7 +44,7 @@ class GangreneClassifier(nn.Module):
                 ignore_mismatched_sizes=True,
             )
             logger.info("Loaded pre-trained weights from %s", model_name)
-        except (OSError, Exception):
+        except (OSError, ConnectionError, ValueError, RuntimeError):
             logger.warning(
                 "Could not download pre-trained weights for %s. "
                 "Initialising ViT from scratch.", model_name,
@@ -93,7 +93,7 @@ def get_feature_extractor():
     """
     try:
         return ViTImageProcessor.from_pretrained(VIT_MODEL_NAME)
-    except (OSError, Exception):
+    except (OSError, ConnectionError, ValueError, RuntimeError):
         logger.warning(
             "Could not download ViTImageProcessor for %s. "
             "Using default processor configuration.", VIT_MODEL_NAME,
