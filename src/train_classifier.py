@@ -6,7 +6,10 @@ Usage::
 """
 
 import argparse
+import json
+import logging
 import os
+import time
 
 import torch
 from torch.utils.data import DataLoader, random_split
@@ -22,6 +25,12 @@ from src.config import (
 from src.classification.dataset import FootDataset, build_dataset
 from src.classification.model import GangreneClassifier
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+)
+logger = logging.getLogger(__name__)
+
 
 def train(epochs: int = CLASSIFIER_EPOCHS,
           batch_size: int = CLASSIFIER_BATCH_SIZE,
@@ -29,20 +38,22 @@ def train(epochs: int = CLASSIFIER_EPOCHS,
     """Train the ViT classifier on the LimbGuard dataset."""
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(f"Using device: {device}")
+    logger.info("Using device: %s", device)
 
     # ── data ───────────────────────────────────────────────────────────
     paths, labels = build_dataset()
     if not paths:
-        print("ERROR: No images found. Check that the Dataset/ folder "
-              "contains images under normal_feet_images/ and "
-              "wound-segmentation/data/Medetec_foot_ulcer_224/.")
+        logger.error(
+            "No images found. Check that the Dataset/ folder "
+            "contains images under normal_feet_images/ and "
+            "wound-segmentation/data/Medetec_foot_ulcer_224/."
+        )
         return
 
-    print(f"Found {len(paths)} images across {NUM_CLASSES} classes.")
+    logger.info("Found %d images across %d classes.", len(paths), NUM_CLASSES)
     for i, name in enumerate(CLASS_NAMES):
         count = labels.count(i)
-        print(f"  {name}: {count}")
+        logger.info("  %s: %d", name, count)
 
     dataset = FootDataset(paths, labels)
     val_size = max(1, int(0.2 * len(dataset)))
@@ -58,6 +69,9 @@ def train(epochs: int = CLASSIFIER_EPOCHS,
 
     best_val_loss = float("inf")
     os.makedirs(CHECKPOINT_DIR, exist_ok=True)
+
+    history = {"train_loss": [], "val_loss": [], "val_acc": []}
+    start_time = time.time()
 
     for epoch in range(1, epochs + 1):
         # Train
@@ -89,17 +103,30 @@ def train(epochs: int = CLASSIFIER_EPOCHS,
         val_loss /= len(val_loader)
         accuracy = correct / total if total else 0.0
 
-        print(f"Epoch {epoch}/{epochs} | "
-              f"train_loss={train_loss:.4f} | "
-              f"val_loss={val_loss:.4f} | "
-              f"val_acc={accuracy:.4f}")
+        history["train_loss"].append(train_loss)
+        history["val_loss"].append(val_loss)
+        history["val_acc"].append(accuracy)
+
+        logger.info(
+            "Epoch %d/%d | train_loss=%.4f | val_loss=%.4f | val_acc=%.4f",
+            epoch, epochs, train_loss, val_loss, accuracy,
+        )
 
         if val_loss < best_val_loss:
             best_val_loss = val_loss
             model.save()
-            print("  → checkpoint saved")
+            logger.info("  → checkpoint saved")
 
-    print("Training complete.")
+    elapsed = time.time() - start_time
+    logger.info("Training complete in %.1f seconds.", elapsed)
+
+    # Save training history
+    history_path = os.path.join(CHECKPOINT_DIR, "training_history.json")
+    with open(history_path, "w") as f:
+        json.dump(history, f, indent=2)
+    logger.info("Training history saved to %s", history_path)
+
+    return history
 
 
 if __name__ == "__main__":

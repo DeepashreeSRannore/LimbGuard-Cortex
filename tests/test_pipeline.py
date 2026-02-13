@@ -110,6 +110,36 @@ class TestRAGEngine:
         assert "consult" in result.lower() or "knowledge base" in result.lower()
 
 
+# ── model tests ────────────────────────────────────────────────────────────
+class TestModel:
+    def test_classifier_init_from_scratch(self):
+        """Model initialises from config when pre-trained weights are unavailable."""
+        from src.classification.model import GangreneClassifier
+        # Use a non-existent model name to trigger the from-scratch fallback
+        model = GangreneClassifier(model_name="nonexistent/model-name")
+        assert model is not None
+        # Should have the correct number of output labels
+        assert model.model.config.num_labels == NUM_CLASSES
+
+    def test_classifier_forward(self):
+        """Forward pass produces logits of the expected shape."""
+        import torch
+        from src.classification.model import GangreneClassifier
+        model = GangreneClassifier(model_name="nonexistent/model-name")
+        dummy = torch.randn(1, 3, 224, 224)
+        output = model(dummy)
+        assert output.logits.shape == (1, NUM_CLASSES)
+
+    def test_classifier_predict(self):
+        """predict() returns a valid class name."""
+        import torch
+        from src.classification.model import GangreneClassifier
+        model = GangreneClassifier(model_name="nonexistent/model-name")
+        dummy = torch.randn(3, 224, 224)
+        pred = model.predict(dummy)
+        assert pred in CLASS_NAMES
+
+
 # ── knowledge base tests ──────────────────────────────────────────────────
 class TestKnowledgeBase:
     def test_knowledge_base_dir_exists(self):
