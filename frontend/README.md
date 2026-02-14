@@ -181,6 +181,72 @@ npm install -g serve
 serve -s build -l 3000
 ```
 
+## Deployment
+
+### Vercel (Recommended)
+
+**Deploy via Vercel Dashboard:**
+
+1. Go to [vercel.com](https://vercel.com) and sign in
+2. Click "Add New" → "Project"
+3. Import your GitHub repository
+4. Configure:
+   - **Framework Preset**: Create React App
+   - **Root Directory**: `frontend`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `build`
+5. Add environment variable:
+   - `REACT_APP_API_URL` = Your backend URL (e.g., `https://limbguard-backend.onrender.com`)
+6. Click "Deploy"
+
+**Deploy via Vercel CLI:**
+
+```bash
+npm install -g vercel
+cd frontend
+vercel --prod
+```
+
+### Netlify
+
+1. Build the application:
+   ```bash
+   npm run build
+   ```
+
+2. Deploy via Netlify Dashboard:
+   - Drag and drop the `build/` folder to Netlify
+   - Or connect your GitHub repository
+
+3. Set environment variable in Netlify dashboard:
+   - `REACT_APP_API_URL` = Your backend URL
+
+The `netlify.toml` configuration file is already included in the frontend directory.
+
+### Environment Variables for Production
+
+**Recommended: Set in Hosting Platform Dashboard**
+
+For Vercel:
+1. Go to project settings → Environment Variables
+2. Add `REACT_APP_API_URL` = `https://your-backend-url.onrender.com`
+3. Apply to Production, Preview, and Development
+
+For Netlify:
+1. Go to Site settings → Environment variables
+2. Add `REACT_APP_API_URL` = `https://your-backend-url.onrender.com`
+
+**Alternative: Local Production Build Testing**
+
+If you need to test a production build locally, create `.env.production.local`:
+
+```env
+REACT_APP_API_URL=https://your-backend-url.onrender.com
+NODE_ENV=production
+```
+
+Note: This file is only for local testing and should not be committed (it's in `.gitignore`).
+
 ## API Endpoints
 
 The backend API provides the following endpoints:
