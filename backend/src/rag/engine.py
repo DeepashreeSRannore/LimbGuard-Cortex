@@ -8,7 +8,7 @@ import os
 import glob
 from typing import List, Optional
 
-from src.config import (
+from backend.src.config import (
     KNOWLEDGE_BASE_DIR,
     FAISS_INDEX_PATH,
     EMBEDDING_MODEL_NAME,

@@ -13,7 +13,7 @@ from PIL import Image
 from torch.utils.data import Dataset
 from torchvision import transforms
 
-from src.config import (
+from backend.src.config import (
     IMAGE_SIZE,
     NORMAL_DATA_DIR,
     WOUND_DATA_DIR,

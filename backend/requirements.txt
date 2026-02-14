@@ -1,0 +1,28 @@
+# FastAPI and web server
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+python-multipart>=0.0.6
+
+# ML and Deep Learning
+torch>=2.6.0
+torchvision>=0.15.0
+transformers>=4.48.0
+
+# Image processing
+Pillow>=10.2.0
+
+# Data processing
+numpy>=1.23.0
+scikit-learn>=1.2.0
+
+# RAG and NLP
+faiss-cpu>=1.7.4
+sentence-transformers>=2.2.0
+langchain>=0.1.0
+langchain-community>=0.3.27
+
+# Optional: Streamlit for alternative UI
+streamlit>=1.25.0
+
+# Document processing (for RAG)
+pypdf>=3.15.0

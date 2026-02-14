@@ -2,7 +2,7 @@
 
 Usage::
 
-    python -m src.train_classifier [--epochs N] [--batch-size B] [--lr LR]
+    python -m backend.src.train_classifier [--epochs N] [--batch-size B] [--lr LR]
 """
 
 import argparse
@@ -14,7 +14,7 @@ import time
 import torch
 from torch.utils.data import DataLoader, random_split
 
-from src.config import (
+from backend.src.config import (
     CLASSIFIER_BATCH_SIZE,
     CLASSIFIER_EPOCHS,
     CLASSIFIER_LR,
@@ -22,8 +22,8 @@ from src.config import (
     NUM_CLASSES,
     CLASS_NAMES,
 )
-from src.classification.dataset import FootDataset, build_dataset
-from src.classification.model import GangreneClassifier
+from backend.src.classification.dataset import FootDataset, build_dataset
+from backend.src.classification.model import GangreneClassifier
 
 logging.basicConfig(
     level=logging.INFO,

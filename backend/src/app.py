@@ -5,7 +5,7 @@ gangrene grade classification, and get evidence-based medical advice.
 
 Usage::
 
-    streamlit run src/app.py
+    streamlit run backend/src/app.py
 """
 
 import os
@@ -15,11 +15,11 @@ import streamlit as st
 from PIL import Image
 
 # Ensure project root is on the path
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 
-from src.config import CLASS_NAMES, CHECKPOINT_DIR  # noqa: E402
-from src.nlp.advisor import generate_advice  # noqa: E402
-from src.rag.engine import get_rag_advice, RAGEngine  # noqa: E402
+from backend.src.config import CLASS_NAMES, CHECKPOINT_DIR  # noqa: E402
+from backend.src.nlp.advisor import generate_advice  # noqa: E402
+from backend.src.rag.engine import get_rag_advice, RAGEngine  # noqa: E402
 
 # ── page config ────────────────────────────────────────────────────────────
 st.set_page_config(page_title="LimbGuard-Cortex", page_icon="🦶", layout="centered")
@@ -37,7 +37,7 @@ def load_classifier():
     """Load the trained ViT classifier (returns *None* if unavailable)."""
     try:
         import torch
-        from src.classification.model import GangreneClassifier
+        from backend.src.classification.model import GangreneClassifier
         ckpt = os.path.join(CHECKPOINT_DIR, "vit_classifier.pt")
         if not os.path.exists(ckpt):
             return None
@@ -63,7 +63,7 @@ def classify_image(image: Image.Image, model) -> str:
     """Run the ViT classifier on *image* and return the predicted class."""
     import torch
     from torchvision import transforms
-    from src.config import IMAGE_SIZE
+    from backend.src.config import IMAGE_SIZE
 
     transform = transforms.Compose([
         transforms.Resize((IMAGE_SIZE, IMAGE_SIZE)),
