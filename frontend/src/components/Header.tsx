@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Chip, Alert } from '@mui/material';
+import { Box, Typography, Alert } from '@mui/material';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 
 const Header: React.FC = () => {

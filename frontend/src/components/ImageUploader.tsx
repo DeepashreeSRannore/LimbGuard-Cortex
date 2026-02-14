@@ -8,11 +8,9 @@ import {
   CircularProgress,
   Alert,
   Stack,
-  Chip,
 } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import ImageIcon from '@mui/icons-material/Image';
 import { PredictionResult } from '../types';
 import { predictImage } from '../services/api';
 
@@ -34,7 +32,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   const [cameraActive, setCameraActive] = useState(false);
   const streamRef = useRef<MediaStream | null>(null);
 
-  const handleImageUpload = async (file: File) => {
+  const handleImageUpload = useCallback(async (file: File) => {
     setError(null);
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -52,7 +50,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     } finally {
       onLoadingChange(false);
     }
-  };
+  }, [onPrediction, onLoadingChange]);
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -60,7 +58,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         handleImageUpload(acceptedFiles[0]);
       }
     },
-    []
+    [handleImageUpload]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

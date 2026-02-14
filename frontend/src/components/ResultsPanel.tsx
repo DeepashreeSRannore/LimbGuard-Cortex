@@ -14,7 +14,6 @@ import {
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import WarningIcon from '@mui/icons-material/Warning';
 import ErrorIcon from '@mui/icons-material/Error';
-import InfoIcon from '@mui/icons-material/Info';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { PredictionResult } from '../types';
 
@@ -25,12 +24,6 @@ interface ResultsPanelProps {
 
 const ResultsPanel: React.FC<ResultsPanelProps> = ({ result, onReset }) => {
   const isNormal = result.classification === 'normal';
-  const getSeverityColor = () => {
-    if (isNormal) return 'success';
-    if (result.classification === 'grade_1') return 'info';
-    if (result.classification === 'grade_2') return 'warning';
-    return 'error';
-  };
 
   const getSeverityIcon = () => {
     if (isNormal) return <CheckCircleIcon />;
