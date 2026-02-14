@@ -223,16 +223,29 @@ vercel --prod
 
 The `netlify.toml` configuration file is already included in the frontend directory.
 
-### Environment Variables
+### Environment Variables for Production
 
-For production deployment, create a `.env.production.local` file:
+**Recommended: Set in Hosting Platform Dashboard**
+
+For Vercel:
+1. Go to project settings → Environment Variables
+2. Add `REACT_APP_API_URL` = `https://your-backend-url.onrender.com`
+3. Apply to Production, Preview, and Development
+
+For Netlify:
+1. Go to Site settings → Environment variables
+2. Add `REACT_APP_API_URL` = `https://your-backend-url.onrender.com`
+
+**Alternative: Local Production Build Testing**
+
+If you need to test a production build locally, create `.env.production.local`:
 
 ```env
 REACT_APP_API_URL=https://your-backend-url.onrender.com
 NODE_ENV=production
 ```
 
-Or set these variables in your hosting platform's dashboard (recommended).
+Note: This file is only for local testing and should not be committed (it's in `.gitignore`).
 
 ## API Endpoints
 
