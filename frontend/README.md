@@ -181,6 +181,59 @@ npm install -g serve
 serve -s build -l 3000
 ```
 
+## Deployment
+
+### Vercel (Recommended)
+
+**Deploy via Vercel Dashboard:**
+
+1. Go to [vercel.com](https://vercel.com) and sign in
+2. Click "Add New" → "Project"
+3. Import your GitHub repository
+4. Configure:
+   - **Framework Preset**: Create React App
+   - **Root Directory**: `frontend`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `build`
+5. Add environment variable:
+   - `REACT_APP_API_URL` = Your backend URL (e.g., `https://limbguard-backend.onrender.com`)
+6. Click "Deploy"
+
+**Deploy via Vercel CLI:**
+
+```bash
+npm install -g vercel
+cd frontend
+vercel --prod
+```
+
+### Netlify
+
+1. Build the application:
+   ```bash
+   npm run build
+   ```
+
+2. Deploy via Netlify Dashboard:
+   - Drag and drop the `build/` folder to Netlify
+   - Or connect your GitHub repository
+
+3. Set environment variable in Netlify dashboard:
+   - `REACT_APP_API_URL` = Your backend URL
+
+The `netlify.toml` configuration file is already included in the frontend directory.
+
+### Environment Variables
+
+For production deployment, create a `.env.production.local` file:
+
+```env
+REACT_APP_API_URL=https://your-backend-url.onrender.com
+NODE_ENV=production
+```
+
+Or set these variables in your hosting platform's dashboard (recommended).
+
 ## API Endpoints
 
 The backend API provides the following endpoints:

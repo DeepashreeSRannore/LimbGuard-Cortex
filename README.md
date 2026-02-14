@@ -89,6 +89,13 @@ LimbGuard-Cortex/
 └── DEPLOYMENT.md                 # Detailed deployment guide
 ```
 
+**Note on Root Directory Files:**
+- All backend code is in `backend/` - Render will use this as root directory
+- All frontend code is in `frontend/` - Vercel will use this as root directory  
+- `knowledge_base/` is used by backend RAG engine at runtime
+- `Dataset/` is optional and only needed for model training (not required for deployment)
+- Root contains only essential documentation files
+
 ## 🎯 Features
 
 ### Backend (FastAPI + Python)
