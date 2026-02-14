@@ -52,8 +52,27 @@ tmp/
 
 # Pytest
 .pytest_cache/
+.coverage
+htmlcov/
 
-# Node.js (in case accidentally created in root)
+# Node.js / React
 node_modules/
-package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
+# Frontend build artifacts
+frontend/build/
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# Backend
+*.pyc
+*.pyo
+.Python
+
+# Deployment
+.vercel
+.netlify

@@ -11,10 +11,10 @@ import tempfile
 import pytest
 
 # Ensure project root is importable
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 
-from src.config import CLASS_NAMES, NUM_CLASSES, PROJECT_ROOT  # noqa: E402
-from src.nlp.advisor import generate_advice  # noqa: E402
+from backend.src.config import CLASS_NAMES, NUM_CLASSES, PROJECT_ROOT  # noqa: E402
+from backend.src.nlp.advisor import generate_advice  # noqa: E402
 
 
 # ── config tests ───────────────────────────────────────────────────────────
@@ -72,14 +72,14 @@ class TestAdvisor:
 # ── dataset tests ──────────────────────────────────────────────────────────
 class TestDataset:
     def test_build_dataset_returns_lists(self):
-        from src.classification.dataset import build_dataset
+        from backend.src.classification.dataset import build_dataset
         paths, labels = build_dataset()
         assert isinstance(paths, list)
         assert isinstance(labels, list)
         assert len(paths) == len(labels)
 
     def test_foot_dataset_len(self):
-        from src.classification.dataset import FootDataset
+        from backend.src.classification.dataset import FootDataset
         # Empty dataset
         ds = FootDataset([], [])
         assert len(ds) == 0
@@ -88,14 +88,14 @@ class TestDataset:
 # ── RAG engine tests ──────────────────────────────────────────────────────
 class TestRAGEngine:
     def test_chunk_text(self):
-        from src.rag.engine import RAGEngine
+        from backend.src.rag.engine import RAGEngine
         text = "A" * 1000
         chunks = RAGEngine._chunk_text(text, chunk_size=200, overlap=50)
         assert len(chunks) > 1
         assert all(len(c) <= 200 for c in chunks)
 
     def test_load_text_files(self):
-        from src.rag.engine import RAGEngine
+        from backend.src.rag.engine import RAGEngine
         with tempfile.TemporaryDirectory() as tmpdir:
             fpath = os.path.join(tmpdir, "test.txt")
             with open(fpath, "w") as f:
@@ -105,7 +105,7 @@ class TestRAGEngine:
             assert docs[0] == "test content"
 
     def test_get_rag_advice_fallback(self):
-        from src.rag.engine import get_rag_advice
+        from backend.src.rag.engine import get_rag_advice
         result = get_rag_advice("grade_1")
         assert "consult" in result.lower() or "knowledge base" in result.lower()
 
@@ -114,7 +114,7 @@ class TestRAGEngine:
 class TestModel:
     def test_classifier_init_from_scratch(self):
         """Model initialises from config when pre-trained weights are unavailable."""
-        from src.classification.model import GangreneClassifier
+        from backend.src.classification.model import GangreneClassifier
         # Use a non-existent model name to trigger the from-scratch fallback
         model = GangreneClassifier(model_name="nonexistent/model-name")
         assert model is not None
@@ -124,7 +124,7 @@ class TestModel:
     def test_classifier_forward(self):
         """Forward pass produces logits of the expected shape."""
         import torch
-        from src.classification.model import GangreneClassifier
+        from backend.src.classification.model import GangreneClassifier
         model = GangreneClassifier(model_name="nonexistent/model-name")
         dummy = torch.randn(1, 3, 224, 224)
         output = model(dummy)
@@ -133,7 +133,7 @@ class TestModel:
     def test_classifier_predict(self):
         """predict() returns a valid class name."""
         import torch
-        from src.classification.model import GangreneClassifier
+        from backend.src.classification.model import GangreneClassifier
         model = GangreneClassifier(model_name="nonexistent/model-name")
         dummy = torch.randn(3, 224, 224)
         pred = model.predict(dummy)
@@ -143,10 +143,10 @@ class TestModel:
 # ── knowledge base tests ──────────────────────────────────────────────────
 class TestKnowledgeBase:
     def test_knowledge_base_dir_exists(self):
-        from src.config import KNOWLEDGE_BASE_DIR
+        from backend.src.config import KNOWLEDGE_BASE_DIR
         assert os.path.isdir(KNOWLEDGE_BASE_DIR)
 
     def test_knowledge_base_has_documents(self):
-        from src.config import KNOWLEDGE_BASE_DIR
+        from backend.src.config import KNOWLEDGE_BASE_DIR
         txt_files = [f for f in os.listdir(KNOWLEDGE_BASE_DIR) if f.endswith(".txt")]
         assert len(txt_files) >= 1

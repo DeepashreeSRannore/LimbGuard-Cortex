@@ -12,7 +12,7 @@ import torch
 import torch.nn as nn
 from transformers import ViTForImageClassification, ViTImageProcessor, ViTConfig
 
-from src.config import (
+from backend.src.config import (
     VIT_MODEL_NAME,
     NUM_CLASSES,
     CLASS_NAMES,

@@ -5,12 +5,12 @@ self-care advice (sugar maintenance, skin care, scheduling reminders) using
 a lightweight language model.
 
 When gangrene is detected, the RAG pipeline is used instead (see
-``src.rag.engine``).
+``backend.src.rag.engine``).
 """
 
 from typing import Dict
 
-from src.config import CLASS_NAMES
+from backend.src.config import CLASS_NAMES
 
 
 # ── Static advice templates ────────────────────────────────────────────────

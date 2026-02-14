@@ -8,7 +8,7 @@ import os
 import glob
 from typing import List, Optional
 
-from src.config import (
+from backend.src.config import (
     KNOWLEDGE_BASE_DIR,
     FAISS_INDEX_PATH,
     EMBEDDING_MODEL_NAME,
@@ -174,7 +174,7 @@ def get_rag_advice(classification: str, rag_engine: Optional[RAGEngine] = None) 
         return (
             "RAG knowledge base is not available. "
             "Install dependencies (`pip install -r requirements.txt`) and "
-            "run `python -m src.rag.engine` to build the index. "
+            "run `python -m backend.src.rag.engine` to build the index. "
             "In the meantime, please consult a healthcare professional."
         )
 
@@ -182,4 +182,5 @@ def get_rag_advice(classification: str, rag_engine: Optional[RAGEngine] = None) 
 if __name__ == "__main__":
     engine = RAGEngine()
     engine.build_index()
-    print("FAISS index built successfully.")
+    from backend.src.config import FAISS_INDEX_PATH
+    print(f"FAISS index built successfully at {FAISS_INDEX_PATH}")

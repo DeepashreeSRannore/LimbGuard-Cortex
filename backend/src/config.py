@@ -3,7 +3,8 @@
 import os
 
 # ── Project paths ──────────────────────────────────────────────────────────
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# config.py is now at backend/src/config.py, so we need to go up 2 levels to get to project root
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DATASET_DIR = os.path.join(PROJECT_ROOT, "Dataset")
 WOUND_DATA_DIR = os.path.join(DATASET_DIR, "wound-segmentation", "data",
                               "Medetec_foot_ulcer_224")

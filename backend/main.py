@@ -4,12 +4,16 @@ This server provides a REST API endpoint for foot image classification.
 It wraps the existing ViT-based gangrene classifier and NLP advice generator.
 
 Usage:
-    uvicorn server:app --reload --port 8000
+    uvicorn backend.main:app --reload --port 8000
+    
+    Or from the backend directory:
+    uvicorn main:app --reload --port 8000
 """
 
 import os
 import sys
 import io
+import logging
 from typing import Dict, Any
 
 from fastapi import FastAPI, File, UploadFile, HTTPException
@@ -18,12 +22,16 @@ from PIL import Image
 import torch
 from torchvision import transforms
 
-# Add parent directory to path to import from src
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-from src.config import CLASS_NAMES, CHECKPOINT_DIR, IMAGE_SIZE
-from src.nlp.advisor import generate_advice
-from src.rag.engine import get_rag_advice, RAGEngine
+# Add parent directory to path to enable imports
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from backend.src.config import CLASS_NAMES, CHECKPOINT_DIR, IMAGE_SIZE
+from backend.src.nlp.advisor import generate_advice
+from backend.src.rag.engine import get_rag_advice, RAGEngine
 
 app = FastAPI(
     title="LimbGuard-Cortex API",
@@ -32,9 +40,20 @@ app = FastAPI(
 )
 
 # Enable CORS for React frontend
+# Allow localhost for development and production domains
+allowed_origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+# Add production origins from environment variable
+production_origin = os.getenv("FRONTEND_URL")
+if production_origin:
+    allowed_origins.append(production_origin)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -52,16 +71,17 @@ def load_classifier():
         return _classifier
     
     try:
-        from src.classification.model import GangreneClassifier
+        from backend.src.classification.model import GangreneClassifier
         ckpt = os.path.join(CHECKPOINT_DIR, "vit_classifier.pt")
         if not os.path.exists(ckpt):
             return None
         model = GangreneClassifier()
         model.load(ckpt)
         _classifier = model
+        logger.info("Classifier loaded successfully")
         return model
     except Exception as e:
-        print(f"Error loading classifier: {e}")
+        logger.error(f"Error loading classifier: {e}")
         return None
 
 
@@ -75,9 +95,10 @@ def load_rag_engine():
         engine = RAGEngine()
         engine.load_index()
         _rag_engine = engine
+        logger.info("RAG engine loaded successfully")
         return engine
     except Exception as e:
-        print(f"Error loading RAG engine: {e}")
+        logger.error(f"Error loading RAG engine: {e}")
         return None
 
 
@@ -175,7 +196,7 @@ async def predict(file: UploadFile = File(...)) -> Dict[str, Any]:
     except HTTPException:
         raise
     except Exception as e:
-        print(f"Error processing prediction: {e}")
+        logger.error(f"Error processing prediction: {e}")
         raise HTTPException(status_code=500, detail=f"Server error: {str(e)}")
 
 
