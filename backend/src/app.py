@@ -103,7 +103,7 @@ if uploaded:
             if model is None:
                 st.error(
                     "Trained model not found. Train the classifier first with "
-                    "`python -m src.train_classifier`, or enable **Demo mode** "
+                    "`python -m backend.src.train_classifier`, or enable **Demo mode** "
                     "in the sidebar."
                 )
                 st.stop()

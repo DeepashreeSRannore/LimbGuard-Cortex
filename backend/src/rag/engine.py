@@ -174,7 +174,7 @@ def get_rag_advice(classification: str, rag_engine: Optional[RAGEngine] = None) 
         return (
             "RAG knowledge base is not available. "
             "Install dependencies (`pip install -r requirements.txt`) and "
-            "run `python -m src.rag.engine` to build the index. "
+            "run `python -m backend.src.rag.engine` to build the index. "
             "In the meantime, please consult a healthcare professional."
         )
 
