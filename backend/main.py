@@ -13,6 +13,7 @@ Usage:
 import os
 import sys
 import io
+import logging
 from typing import Dict, Any
 
 from fastapi import FastAPI, File, UploadFile, HTTPException
@@ -20,6 +21,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 import torch
 from torchvision import transforms
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Add parent directory to path to enable imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -73,9 +78,10 @@ def load_classifier():
         model = GangreneClassifier()
         model.load(ckpt)
         _classifier = model
+        logger.info("Classifier loaded successfully")
         return model
     except Exception as e:
-        print(f"Error loading classifier: {e}")
+        logger.error(f"Error loading classifier: {e}")
         return None
 
 
@@ -89,9 +95,10 @@ def load_rag_engine():
         engine = RAGEngine()
         engine.load_index()
         _rag_engine = engine
+        logger.info("RAG engine loaded successfully")
         return engine
     except Exception as e:
-        print(f"Error loading RAG engine: {e}")
+        logger.error(f"Error loading RAG engine: {e}")
         return None
 
 
@@ -189,7 +196,7 @@ async def predict(file: UploadFile = File(...)) -> Dict[str, Any]:
     except HTTPException:
         raise
     except Exception as e:
-        print(f"Error processing prediction: {e}")
+        logger.error(f"Error processing prediction: {e}")
         raise HTTPException(status_code=500, detail=f"Server error: {str(e)}")
 
 

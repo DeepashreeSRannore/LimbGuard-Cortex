@@ -182,4 +182,5 @@ def get_rag_advice(classification: str, rag_engine: Optional[RAGEngine] = None) 
 if __name__ == "__main__":
     engine = RAGEngine()
     engine.build_index()
-    print("FAISS index built successfully.")
+    from backend.src.config import FAISS_INDEX_PATH
+    print(f"FAISS index built successfully at {FAISS_INDEX_PATH}")
