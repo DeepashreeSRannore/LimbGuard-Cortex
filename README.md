@@ -9,12 +9,6 @@ LimbGuard-Cortex/
 ├── Dataset/                         # Existing image datasets
 │   ├── normal_feet_images/          # Healthy foot images
 │   └── wound-segmentation/          # Wound segmentation data (Medetec)
-├── frontend/                        # React frontend application (NEW!)
-│   ├── api/                         # FastAPI backend server
-│   ├── src/                         # React components and services
-│   ├── public/                      # Static assets
-│   ├── start.sh                     # Easy startup script
-│   └── README.md                    # Frontend documentation
 ├── knowledge_base/                  # Medical reference documents for RAG
 │   ├── diabetic_foot_guidelines.txt
 │   └── wound_assessment_reference.txt
@@ -74,17 +68,6 @@ python -m src.train_classifier --epochs 10 --batch-size 16
 ```
 
 ### 4. Launch the Web App
-
-**Option A: Modern React Frontend (Recommended)**
-
-```bash
-cd frontend
-./start.sh  # Starts both backend API and React frontend
-```
-
-Then visit `http://localhost:3000` in your browser.
-
-**Option B: Streamlit App**
 
 ```bash
 streamlit run src/app.py

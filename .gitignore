@@ -52,8 +52,3 @@ tmp/
 
 # Pytest
 .pytest_cache/
-
-# Node.js (in case accidentally created in root)
-node_modules/
-package-lock.json
-
