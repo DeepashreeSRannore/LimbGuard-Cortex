@@ -8,6 +8,7 @@ Usage:
     
     Or from the backend directory:
     uvicorn main:app --reload --port 8000
+    uvicorn api:app --reload --port 8000
 """
 
 import os
