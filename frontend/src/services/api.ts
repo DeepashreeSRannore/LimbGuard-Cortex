@@ -20,11 +20,17 @@ export const predictImage = async (file: File): Promise<PredictionResult> => {
     return response.data;
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
+      if (!error.response && error.message === 'Network Error') {
+        throw new Error(
+          `Cannot connect to backend at ${API_BASE_URL}. ` +
+          'Please ensure the backend server is running and the REACT_APP_API_URL environment variable is set correctly.'
+        );
+      }
       const apiError = error.response?.data as ApiError;
       throw new Error(
         apiError?.detail || 
         error.message || 
-        'Failed to connect to the prediction service. Please ensure the backend server is running on port 8000.'
+        'Failed to connect to the prediction service.'
       );
     }
     throw new Error('An unexpected error occurred while processing the image.');

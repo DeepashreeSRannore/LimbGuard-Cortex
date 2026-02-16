@@ -61,21 +61,24 @@ LimbGuard-Cortex consists of two components:
      Install Command: npm install
      ```
 
-3. **Add Environment Variable**:
+3. **Add Environment Variable** (REQUIRED):
    - In project settings → "Environment Variables"
-   - Add: `REACT_APP_API_URL` = `https://limbguard-backend.onrender.com` (your backend URL)
+   - Add: `REACT_APP_API_URL` = `https://limbguard-backend.onrender.com` (your backend URL from Step 1)
+   - ⚠️ **This must be set before deploying, otherwise the frontend will not connect to the backend**
 
 4. **Deploy**:
    - Click "Deploy"
    - Wait for deployment
    - Note your frontend URL (e.g., `https://limbguard-cortex.vercel.app`)
 
-### Step 3: Update Backend CORS
+### Step 3: Update Backend CORS (REQUIRED)
 
 1. Go back to Render dashboard
 2. Edit your backend service
 3. Update environment variable:
-   - `FRONTEND_URL` = `https://limbguard-cortex.vercel.app` (your frontend URL)
+   - `FRONTEND_URL` = `https://limbguard-cortex.vercel.app` (your frontend URL from Step 2)
+   - ⚠️ **Without this, the backend will block requests from your frontend (CORS error)**
+   - You can specify multiple URLs separated by commas if needed
 4. Redeploy the service
 
 ### Step 4: Test

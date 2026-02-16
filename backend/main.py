@@ -19,8 +19,6 @@ from typing import Dict, Any
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
-import torch
-from torchvision import transforms
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -47,9 +45,12 @@ allowed_origins = [
 ]
 
 # Add production origins from environment variable
-production_origin = os.getenv("FRONTEND_URL")
-if production_origin:
-    allowed_origins.append(production_origin)
+# Supports comma-separated URLs for multiple frontends
+production_origins = os.getenv("FRONTEND_URL", "")
+for origin in production_origins.split(","):
+    origin = origin.strip()
+    if origin:
+        allowed_origins.append(origin)
 
 app.add_middleware(
     CORSMiddleware,
@@ -71,10 +72,10 @@ def load_classifier():
         return _classifier
     
     try:
-        from backend.src.classification.model import GangreneClassifier
         ckpt = os.path.join(CHECKPOINT_DIR, "vit_classifier.pt")
         if not os.path.exists(ckpt):
             return None
+        from backend.src.classification.model import GangreneClassifier
         model = GangreneClassifier()
         model.load(ckpt)
         _classifier = model
@@ -104,6 +105,7 @@ def load_rag_engine():
 
 def classify_image(image: Image.Image, model) -> str:
     """Run the ViT classifier on the image and return predicted class."""
+    from torchvision import transforms
     transform = transforms.Compose([
         transforms.Resize((IMAGE_SIZE, IMAGE_SIZE)),
         transforms.ToTensor(),
