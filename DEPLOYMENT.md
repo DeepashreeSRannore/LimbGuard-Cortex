@@ -29,7 +29,7 @@ LimbGuard-Cortex consists of two components:
      Root Directory: backend
      Runtime: Python 3
      Build Command: pip install -r requirements.txt
-     Start Command: uvicorn main:app --host 0.0.0.0 --port $PORT
+     Start Command: uvicorn api:app --host 0.0.0.0 --port $PORT
      ```
 
 3. **Add Environment Variables**:
@@ -190,7 +190,7 @@ COPY . .
 EXPOSE 8080
 
 # Run the application
-CMD uvicorn main:app --host 0.0.0.0 --port $PORT
+CMD uvicorn api:app --host 0.0.0.0 --port $PORT
 ```
 
 ### Step 3: Deploy to Cloud Run
