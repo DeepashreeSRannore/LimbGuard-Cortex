@@ -55,18 +55,21 @@ if production_origins:
         origin = origin.strip()
         if origin:
             allowed_origins.append(origin)
+    allow_credentials = True
 else:
     # Allow all origins when FRONTEND_URL is not set.
     # This makes initial deployment work without extra configuration.
     # Set FRONTEND_URL in production for tighter security.
     allowed_origins = ["*"]
+    # Credentials must be False when using wildcard origins (browser requirement)
+    allow_credentials = False
 
 logger.info("CORS allowed_origins: %s", allowed_origins)
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
-    allow_credentials=bool(production_origins),
+    allow_credentials=allow_credentials,
     allow_methods=["*"],
     allow_headers=["*"],
 )
