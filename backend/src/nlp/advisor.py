@@ -10,7 +10,10 @@ When gangrene is detected, the RAG pipeline is used instead (see
 
 from typing import Dict
 
-from backend.src.config import CLASS_NAMES
+try:
+    from backend.src.config import CLASS_NAMES
+except ImportError:
+    from src.config import CLASS_NAMES  # type: ignore
 
 
 # ── Static advice templates ────────────────────────────────────────────────

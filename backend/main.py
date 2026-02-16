@@ -27,9 +27,15 @@ logger = logging.getLogger(__name__)
 # Add parent directory to path to enable imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from backend.src.config import CLASS_NAMES, CHECKPOINT_DIR, IMAGE_SIZE
-from backend.src.nlp.advisor import generate_advice
-from backend.src.rag.engine import get_rag_advice, RAGEngine
+try:
+    from backend.src.config import CLASS_NAMES, CHECKPOINT_DIR, IMAGE_SIZE
+    from backend.src.nlp.advisor import generate_advice
+    from backend.src.rag.engine import get_rag_advice, RAGEngine
+except ImportError:
+    # Fallback: try relative imports when running from backend/ directory
+    from src.config import CLASS_NAMES, CHECKPOINT_DIR, IMAGE_SIZE  # type: ignore
+    from src.nlp.advisor import generate_advice  # type: ignore
+    from src.rag.engine import get_rag_advice, RAGEngine  # type: ignore
 
 app = FastAPI(
     title="LimbGuard-Cortex API",
@@ -38,24 +44,29 @@ app = FastAPI(
 )
 
 # Enable CORS for React frontend
-# Allow localhost for development and production domains
-allowed_origins = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-]
-
-# Add production origins from environment variable
-# Supports comma-separated URLs for multiple frontends
 production_origins = os.getenv("FRONTEND_URL", "")
-for origin in production_origins.split(","):
-    origin = origin.strip()
-    if origin:
-        allowed_origins.append(origin)
+if production_origins:
+    # Restrict to specified origins when FRONTEND_URL is configured
+    allowed_origins = [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ]
+    for origin in production_origins.split(","):
+        origin = origin.strip()
+        if origin:
+            allowed_origins.append(origin)
+else:
+    # Allow all origins when FRONTEND_URL is not set.
+    # This makes initial deployment work without extra configuration.
+    # Set FRONTEND_URL in production for tighter security.
+    allowed_origins = ["*"]
+
+logger.info("CORS allowed_origins: %s", allowed_origins)
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
-    allow_credentials=True,
+    allow_credentials=bool(production_origins),
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -75,7 +86,10 @@ def load_classifier():
         ckpt = os.path.join(CHECKPOINT_DIR, "vit_classifier.pt")
         if not os.path.exists(ckpt):
             return None
-        from backend.src.classification.model import GangreneClassifier
+        try:
+            from backend.src.classification.model import GangreneClassifier
+        except ImportError:
+            from src.classification.model import GangreneClassifier  # type: ignore
         model = GangreneClassifier()
         model.load(ckpt)
         _classifier = model

@@ -12,13 +12,22 @@ import torch
 import torch.nn as nn
 from transformers import ViTForImageClassification, ViTImageProcessor, ViTConfig
 
-from backend.src.config import (
-    VIT_MODEL_NAME,
-    NUM_CLASSES,
-    CLASS_NAMES,
-    CHECKPOINT_DIR,
-    IMAGE_SIZE,
-)
+try:
+    from backend.src.config import (
+        VIT_MODEL_NAME,
+        NUM_CLASSES,
+        CLASS_NAMES,
+        CHECKPOINT_DIR,
+        IMAGE_SIZE,
+    )
+except ImportError:
+    from src.config import (  # type: ignore
+        VIT_MODEL_NAME,
+        NUM_CLASSES,
+        CLASS_NAMES,
+        CHECKPOINT_DIR,
+        IMAGE_SIZE,
+    )
 
 logger = logging.getLogger(__name__)
 

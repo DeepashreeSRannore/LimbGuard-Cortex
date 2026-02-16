@@ -8,14 +8,24 @@ import os
 import glob
 from typing import List, Optional
 
-from backend.src.config import (
-    KNOWLEDGE_BASE_DIR,
-    FAISS_INDEX_PATH,
-    EMBEDDING_MODEL_NAME,
-    RAG_CHUNK_SIZE,
-    RAG_CHUNK_OVERLAP,
-    RAG_TOP_K,
-)
+try:
+    from backend.src.config import (
+        KNOWLEDGE_BASE_DIR,
+        FAISS_INDEX_PATH,
+        EMBEDDING_MODEL_NAME,
+        RAG_CHUNK_SIZE,
+        RAG_CHUNK_OVERLAP,
+        RAG_TOP_K,
+    )
+except ImportError:
+    from src.config import (  # type: ignore
+        KNOWLEDGE_BASE_DIR,
+        FAISS_INDEX_PATH,
+        EMBEDDING_MODEL_NAME,
+        RAG_CHUNK_SIZE,
+        RAG_CHUNK_OVERLAP,
+        RAG_TOP_K,
+    )
 
 
 class RAGEngine:
