@@ -13,12 +13,20 @@ from PIL import Image
 from torch.utils.data import Dataset
 from torchvision import transforms
 
-from backend.src.config import (
-    IMAGE_SIZE,
-    NORMAL_DATA_DIR,
-    WOUND_DATA_DIR,
-    CLASS_NAMES,
-)
+try:
+    from backend.src.config import (
+        IMAGE_SIZE,
+        NORMAL_DATA_DIR,
+        WOUND_DATA_DIR,
+        CLASS_NAMES,
+    )
+except ImportError:
+    from src.config import (  # type: ignore
+        IMAGE_SIZE,
+        NORMAL_DATA_DIR,
+        WOUND_DATA_DIR,
+        CLASS_NAMES,
+    )
 
 
 def _collect_image_paths(root: str, extensions: Tuple[str, ...] = (".jpg", ".jpeg", ".png")) -> List[str]:

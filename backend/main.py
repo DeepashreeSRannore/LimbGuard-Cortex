@@ -19,8 +19,6 @@ from typing import Dict, Any
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
-import torch
-from torchvision import transforms
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -29,9 +27,15 @@ logger = logging.getLogger(__name__)
 # Add parent directory to path to enable imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from backend.src.config import CLASS_NAMES, CHECKPOINT_DIR, IMAGE_SIZE
-from backend.src.nlp.advisor import generate_advice
-from backend.src.rag.engine import get_rag_advice, RAGEngine
+try:
+    from backend.src.config import CLASS_NAMES, CHECKPOINT_DIR, IMAGE_SIZE
+    from backend.src.nlp.advisor import generate_advice
+    from backend.src.rag.engine import get_rag_advice, RAGEngine
+except ImportError:
+    # Fallback: try relative imports when running from backend/ directory
+    from src.config import CLASS_NAMES, CHECKPOINT_DIR, IMAGE_SIZE  # type: ignore
+    from src.nlp.advisor import generate_advice  # type: ignore
+    from src.rag.engine import get_rag_advice, RAGEngine  # type: ignore
 
 app = FastAPI(
     title="LimbGuard-Cortex API",
@@ -40,21 +44,32 @@ app = FastAPI(
 )
 
 # Enable CORS for React frontend
-# Allow localhost for development and production domains
-allowed_origins = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-]
+production_origins = os.getenv("FRONTEND_URL", "")
+if production_origins:
+    # Restrict to specified origins when FRONTEND_URL is configured
+    allowed_origins = [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ]
+    for origin in production_origins.split(","):
+        origin = origin.strip()
+        if origin:
+            allowed_origins.append(origin)
+    allow_credentials = True
+else:
+    # Allow all origins when FRONTEND_URL is not set.
+    # This makes initial deployment work without extra configuration.
+    # Set FRONTEND_URL in production for tighter security.
+    allowed_origins = ["*"]
+    # Credentials must be False when using wildcard origins (browser requirement)
+    allow_credentials = False
 
-# Add production origins from environment variable
-production_origin = os.getenv("FRONTEND_URL")
-if production_origin:
-    allowed_origins.append(production_origin)
+logger.info("CORS allowed_origins: %s", allowed_origins)
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
-    allow_credentials=True,
+    allow_credentials=allow_credentials,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -71,10 +86,13 @@ def load_classifier():
         return _classifier
     
     try:
-        from backend.src.classification.model import GangreneClassifier
         ckpt = os.path.join(CHECKPOINT_DIR, "vit_classifier.pt")
         if not os.path.exists(ckpt):
             return None
+        try:
+            from backend.src.classification.model import GangreneClassifier
+        except ImportError:
+            from src.classification.model import GangreneClassifier  # type: ignore
         model = GangreneClassifier()
         model.load(ckpt)
         _classifier = model
@@ -104,6 +122,7 @@ def load_rag_engine():
 
 def classify_image(image: Image.Image, model) -> str:
     """Run the ViT classifier on the image and return predicted class."""
+    from torchvision import transforms
     transform = transforms.Compose([
         transforms.Resize((IMAGE_SIZE, IMAGE_SIZE)),
         transforms.ToTensor(),
